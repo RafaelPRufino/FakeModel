@@ -1,4 +1,4 @@
-# Query
+# Fake Model
 
 Uma biblioteca PHP para tratar entidades SQL.
 

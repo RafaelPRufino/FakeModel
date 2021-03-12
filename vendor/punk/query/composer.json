@@ -1,0 +1,15 @@
+{
+    "name": "punk/query",
+    "authors": [
+        {
+            "name": "Rafael Rufino",
+            "email": "rafaelrufino14@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Punk\\Query\\": "src"
+        }
+    }
+}

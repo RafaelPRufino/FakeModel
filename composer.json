@@ -1,0 +1,17 @@
+{
+    "name": "punk/fake-model",
+    "authors": [
+        {
+            "name": "Rafael Rufino",
+            "email": "rafaelrufino14@hotmail.com"
+        }
+    ],
+    "require": {
+        "punk/query": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Punk\\Query\\": "src"
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "90b2e38d88f59919cecd64eb3180a6ea",
+    "packages": [
+        {
+            "name": "punk/query",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RafaelPRufino/Query.git",
+                "reference": "54e4837273bb9a3aa7520571a2ee742430b6cf8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RafaelPRufino/Query/zipball/54e4837273bb9a3aa7520571a2ee742430b6cf8d",
+                "reference": "54e4837273bb9a3aa7520571a2ee742430b6cf8d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Punk\\Query\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Rafael Rufino",
+                    "email": "rafaelrufino14@hotmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/RafaelPRufino/Query/issues",
+                "source": "https://github.com/RafaelPRufino/Query/tree/1.0.2"
+            },
+            "time": "2021-02-27T18:07:58+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

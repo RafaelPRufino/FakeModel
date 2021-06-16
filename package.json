@@ -1,6 +1,6 @@
 {
   "name": "punk_fake_model",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "semantic-release": "^17.4.2"

@@ -2,8 +2,8 @@
 
 namespace Punk\Query\Fake;
 
-use Punk\Query\Sql;
-use Punk\Query\Capsule\Capsule;
+use \Punk\Query\Sql;
+use \Punk\Query\Fake\Capsule\Capsule;
 
 class Model extends Capsule {
 
@@ -11,7 +11,7 @@ class Model extends Capsule {
         parent::__construct($attributes);
     }
 
-    private static function callStaticMethods($method, $parameters) {
+    private static function callStaticMethods($method, $parameters) {        
         return (new static)->newBuilder()->$method($parameters);
     }
 
@@ -23,6 +23,7 @@ class Model extends Capsule {
      */
     public static function setConnection(Array $configuration): void {
         Sql::setConnection($configuration);
+        Sql::extend(Capsule::class);
     }
 
     /**
@@ -172,5 +173,13 @@ class Model extends Capsule {
      */
     public static function page(int $numberOfPage, int $quantityOfPage) {
         return (new static)->newBuilder()->page($numberOfPage, $quantityOfPage);
+    }
+    
+    /**
+     * Faz uma limitação no Retorno de Objetos
+     * @return Array \Punk\Query\Fake\Model
+     */
+    public static function limit(int $limit = 1) {
+        return static::callStaticMethods('limit', $limit);
     }
 }

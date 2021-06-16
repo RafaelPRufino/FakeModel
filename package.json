@@ -1,0 +1,26 @@
+{
+  "name": "punk_fake_model",
+  "version": "0.0.2",
+  "private": true,
+  "dependencies": {
+    "semantic-release": "^17.4.2"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.1.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "commit": "git add . && git cz",
+    "release": "standard-version"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

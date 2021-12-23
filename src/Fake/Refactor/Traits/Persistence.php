@@ -23,43 +23,39 @@ trait Persistence {
 
     public function performSave($loop = true) {
         $model = $this;
-
+        $attributes = $model->exists() ? $model->getAttributesChanges() : $model->getAttributes();
+        
+       
         if ($model->exists()) {
-            $attributes = $model->getAttributesChanges();
             $columns = $this->filterColumns($attributes);
 
             $model->where([$model->getModelKeyName(), $model->getAttribute($model->getModelKeyName())])->update($columns);
         } else if ($model->incrementing) {
-            $attributes = $model->getAttributes();
             $columns = $this->filterColumns($attributes);
-
+  
             $id = $model->insertGetId($columns, $model->getModelKeyName());
             if ($id > 0) {
                 $find = $this->classname::find($id);
                 $this->config($find->attributes);
             }
         } else if (!$model->incrementing) {
-            $attributes = $model->getAttributes();
-            
             $id = $model->getAttribute($model->getModelKeyName());
-             
+
             $columns = $this->filterColumns($attributes);
-           
+
             $model->insert($columns, $model->getModelKeyName());
-            if (!empty($id)) {               
+            if (!empty($id)) {
                 $find = $this->classname::find($id);
                 $this->config($find->attributes);
             }
         }
 
-        $this->performSaveRelations();
+        $this->performSaveRelations($attributes);
 
         return $this;
-    }    
+    }
 
-    public function performSaveRelations() {
-        $model = $this;
-        $attributes = $model->getAttributesChanges();
+    public function performSaveRelations($attributes) {
         $relations = $this->getloadedRelations();
 
         foreach ($relations as $relation) {
@@ -77,4 +73,5 @@ trait Persistence {
             }
         }
     }
+
 }

@@ -3,6 +3,7 @@
 namespace Punk\Query\Fake\Capsule\Associations;
 
 use \Punk\Query\Utils as Suport;
+use \Punk\Query\Script\Builder as QueryBuilder;
 
 class BelongsToMany extends Relation {
 
@@ -92,6 +93,7 @@ class BelongsToMany extends Relation {
         $this->setTable($table);
         $this->setSourceKey($sourcekey);
         $this->setDestinyKey($destinyKey);
+     
         parent::__construct($query, $relationName, $parent);
     }
 
@@ -105,23 +107,22 @@ class BelongsToMany extends Relation {
         $query = $this->getQuery()->setModel($model);
         $parent = $this->getParent();
 
-        $query->innerJoin($this->getTable(), function($join)use($model) {
+        $query->innerJoin($this->getTable(), function ($join)use ($model) {
             $join->on([$model->getTable() . '.' . $this->getDestinyKey(), $this->getTable() . '.' . $this->getDestinyKey()]);
         });
 
-        $query->innerJoin($parent->getTable(), function($join)use($parent) {
+        $query->innerJoin($parent->getTable(), function ($join)use ($parent) {
             $sourceKeyValue = $parent->{$this->getSourceKey()} ?? null;
             $join->on([$parent->getTable() . '.' . $parent->getModelKeyName(), $this->getTable() . '.' . $this->getSourceKey()]);
             $join->where([$parent->getTable() . '.' . $parent->getModelKeyName(), ' = ', $sourceKeyValue]);
         });
 
         $query->select([$model->getTable() . '.*']);
-
+        var_dump(   $query->getQuery()->toSQL());
         return $this->setRelation($query->get());
     }
 
     public function setRelationValue($models) {
-        $models->setParent($this->getParent());
         return $this->setRelation($models);
     }
 
@@ -129,8 +130,9 @@ class BelongsToMany extends Relation {
         if (is_null($models)) {
             return null;
         }
+
         $parent = $this->getParent();
-        return Suport\Arr::map($models, function(&$model)use($parent) {
+        return Suport\Arr::map($models, function (&$model)use ($parent) {
                     if (is_array($model)) {
                         $model = $this->newModel($model);
                     }
@@ -142,20 +144,37 @@ class BelongsToMany extends Relation {
     }
 
     public function save($models) {
-        if (is_array($models)) {
-            $models = $this->newModel($models);
-        }
-
-        if (!$models->exists()) {
-            $models->save();
-        }
-
-        $this->setRelation($models);
         $parent = $this->getParent();
-        $parent->save();
+        return Suport\Arr::map($models, function (&$model)use ($parent) {
+                    if (is_array($model)) {
+                        $model = $this->newModel($model);
+                    }
+
+                    if (!$model->exists()) {
+                        $model->save();
+                    }
+
+                    $this->setRelation($model);
+                    
+
+                    $parent = $this->getParent();
+                    $parent->save();
+                    
+                    
+                    $query = $this->getQuery()->getQuery()->from($this->getTable());
+                    $attributes = [$this->getSourceKey() =>  $parent->getKey(),
+                                   $this->getDestinyKey() =>$model->getKey()];
+                    
+                               var_dump($this->getDestinyKey())     ;
+                    $query->insert($attributes);
+                    
+                    
+                    return $model;
+                });
     }
 
     public function getDefault() {
         return null;
     }
+
 }

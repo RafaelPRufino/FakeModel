@@ -27,6 +27,12 @@ abstract class Capsule implements JsonSerializable {
      * @return string
      * */
     protected $primarykey = null;
+    
+     /**
+     * PrimayKey do Model
+     * @return string
+     * */
+    protected $primarykey_type = int;
 
     /**
      * Tabela fonte de dados do Model
@@ -81,6 +87,7 @@ abstract class Capsule implements JsonSerializable {
     protected function loadModel($attributes): void {
         $this->fill($attributes);
         $this->exists = !is_null($this->getKey()) ? strlen((string) $this->getKey()) > 0 : false;
+        
         if ($this->exists) {
             $this->clearChanges();
         }
@@ -168,7 +175,7 @@ abstract class Capsule implements JsonSerializable {
     protected function filterColumns($attributes) {
         $columns = $this->getColumns();
         return Arr::queryBy($attributes, function($value, $key)use($columns) {
-                    return Suporte\Arr::in_array($key, $columns);
+                    return Suporte\Arr::in_array($key, $columns) && $key != $this->getModelKeyName();
                 });
     }
 
@@ -238,7 +245,11 @@ abstract class Capsule implements JsonSerializable {
      * @return mixed
      */
     public function getKey() {
-        return $this->getAttribute($this->getModelKeyName());
+        $key = $this->getAttribute($this->getModelKeyName());        
+        if(((int) $key)<= 0){
+            return null;
+        }
+        return $key;
     }
 
     /**

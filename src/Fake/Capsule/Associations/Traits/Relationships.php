@@ -240,7 +240,7 @@ trait RelationShips {
      * @param string $relationKey nome do relacionamento 
      * @return mixed
      * */
-    private function getRelationValues($relationKey) {
+    protected function getRelationValues($relationKey) {
         $relation = $this->getResolvedRelation($relationKey);
         $this->loadedRelations[$relationKey] = $relation;
 

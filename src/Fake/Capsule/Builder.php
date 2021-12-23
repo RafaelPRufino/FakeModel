@@ -70,6 +70,7 @@ class Builder implements Iterator, JsonSerializable {
      * @return bool
      * */
     public function insert(array $attributes): bool {
+      
         return $this->getQuery()->insert($attributes);
     }
 

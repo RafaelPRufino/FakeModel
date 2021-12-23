@@ -110,9 +110,7 @@ class HasMany extends Relation {
 
         $relatedModels = $this->setRelation($preparedModels);
         return Suport\Arr::map($relatedModels, function(&$model) {
-                    if (!$model->exists()) {
-                        $model->save();
-                    }
+                   $model->save();
                 });
     }
 
